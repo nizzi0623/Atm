@@ -1,5 +1,6 @@
 package com.nizzi.atm;
 
+import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        EditText edUserid = (EditText) findViewById(R.id.userid);
+        SharedPreferences setting = getSharedPreferences("atm", MODE_PRIVATE);
+        edUserid.setText(setting.getString("PREF_USERID", ""));
     }
     public void login(View view){
         EditText edUserid = (EditText) findViewById(R.id.userid);
@@ -21,10 +25,13 @@ public class LoginActivity extends AppCompatActivity {
         String userid = edUserid.getText().toString();
         String password = edPassword.getText().toString();
         if ("jack".equals(userid) && "1234".equals(password)){
-            Toast.makeText(this, "登入成功", Toast.LENGTH_LONG).show();
-            getIntent().putExtra("LOGIN_USERID", userid);
+            SharedPreferences setting = getSharedPreferences("atm", MODE_PRIVATE);
+            setting.edit().putString("PREF_USERID", userid).commit();
+            //getIntent().putExtra("LOGIN_USERID", userid);
             getIntent().putExtra("LOGIN_PASSWORD", password);
+            getIntent().putExtra("EXRA_USERID", userid);
             setResult(RESULT_OK, getIntent());
+            Toast.makeText(this, "登入成功", Toast.LENGTH_LONG).show();
             finish();
         }else {
             new AlertDialog.Builder(this)

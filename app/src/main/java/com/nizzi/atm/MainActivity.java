@@ -1,31 +1,50 @@
 package com.nizzi.atm;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.TintContextWrapper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class  MainActivity extends AppCompatActivity {
     private final static int REQUEST_LOGIN = 102;
+    private final static int REQUEST_INFO = 105;
     boolean logon = false;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_LOGIN){
+        switch (requestCode){
+            case REQUEST_LOGIN:
             if (resultCode == RESULT_OK){
-                String userid = data.getStringExtra("LOGIN_USERID");
+                String userid = data.getStringExtra("EXRA_USERID");
+                Toast.makeText(this, "Login ID" + userid, Toast.LENGTH_LONG).show();
+                getSharedPreferences("atm", MODE_PRIVATE).edit().putString("USERID", userid).apply();
+                /*String userid = data.getStringExtra("LOGIN_USERID");
                 String passwd = data.getStringExtra("LOGIN_PASSWORD");
-                Log.d("RESULT", userid + "/" + passwd);
+                Log.d("RESULT", userid + "/" + passwd);*/
             }else{
                 finish();
             }
+            break;
+            case REQUEST_INFO:
+                if (resultCode == RESULT_OK){
+                    String nickname = data.getStringExtra("EXTRA_NICKNAME");
+                    String phone = data.getStringExtra("EXTRA_PHONE");
+                    Toast.makeText(this, "Nickname" + nickname, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Phone" + phone, Toast.LENGTH_LONG).show();
+
+                }
+                break;
         }
     }
 
@@ -33,11 +52,14 @@ public class  MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startActivity(new Intent(this, UserInfoActivity.class));
         if (!logon){
             Intent intent = new Intent(this, LoginActivity.class);
             //startActivity(intent);
             startActivityForResult(intent, REQUEST_LOGIN);
         }
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
