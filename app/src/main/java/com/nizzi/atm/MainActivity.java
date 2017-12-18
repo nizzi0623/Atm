@@ -27,21 +27,19 @@ public class  MainActivity extends AppCompatActivity {
             case REQUEST_LOGIN:
             if (resultCode == RESULT_OK){
                 String userid = data.getStringExtra("EXRA_USERID");
+                String passwd = data.getStringExtra("LOGIN_PASSWORD");
                 Toast.makeText(this, "Login ID" + userid, Toast.LENGTH_LONG).show();
                 getSharedPreferences("atm", MODE_PRIVATE).edit().putString("USERID", userid).apply();
-                /*String userid = data.getStringExtra("LOGIN_USERID");
-                String passwd = data.getStringExtra("LOGIN_PASSWORD");
-                Log.d("RESULT", userid + "/" + passwd);*/
             }else{
                 finish();
             }
             break;
             case REQUEST_INFO:
                 if (resultCode == RESULT_OK){
-                    String nickname = data.getStringExtra("EXTRA_NICKNAME");
-                    String phone = data.getStringExtra("EXTRA_PHONE");
-                    Toast.makeText(this, "Nickname" + nickname, Toast.LENGTH_LONG).show();
-                    Toast.makeText(this, "Phone" + phone, Toast.LENGTH_LONG).show();
+                    String ednickname = data.getStringExtra("EXTRA_NICKNAME");
+                    String edphone = data.getStringExtra("EXTRA_PHONE");
+                    Toast.makeText(this, "暱稱：" + ednickname + "電話：" + edphone, Toast.LENGTH_LONG).show();
+                    getSharedPreferences("info", MODE_PRIVATE).edit().putString("NICKNAME", ednickname).putString("PHONE", edphone).apply();
 
                 }
                 break;
@@ -67,8 +65,10 @@ public class  MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent i = new Intent(MainActivity.this, UserInfoActivity.class);
+                startActivityForResult(i, REQUEST_INFO);
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                  //      .setAction("Action", null).show();
             }
         });
     }

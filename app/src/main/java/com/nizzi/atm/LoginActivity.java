@@ -10,20 +10,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
+    private EditText edUserid;
+    private EditText edPasswd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        EditText edUserid = (EditText) findViewById(R.id.userid);
-        SharedPreferences setting = getSharedPreferences("atm", MODE_PRIVATE);
-        edUserid.setText(setting.getString("PREF_USERID", ""));
+        edUserid = (EditText) findViewById(R.id.userid);
+        edPasswd = (EditText) findViewById(R.id.password);
+        String userid = getSharedPreferences("atm", MODE_PRIVATE).getString("USERID", "");
+        edUserid.setText(userid);
     }
     public void login(View view){
-        EditText edUserid = (EditText) findViewById(R.id.userid);
-        EditText edPassword = (EditText) findViewById(R.id.password);
         String userid = edUserid.getText().toString();
-        String password = edPassword.getText().toString();
+        String password = edPasswd.getText().toString();
         if ("jack".equals(userid) && "1234".equals(password)){
             SharedPreferences setting = getSharedPreferences("atm", MODE_PRIVATE);
             setting.edit().putString("PREF_USERID", userid).commit();
@@ -40,5 +41,6 @@ public class LoginActivity extends AppCompatActivity {
                     .setPositiveButton("OK", null)
                     .show();
         }
+
     }
 }

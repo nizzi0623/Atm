@@ -8,25 +8,27 @@ import android.view.View;
 import android.widget.EditText;
 
 public class UserInfoActivity extends AppCompatActivity {
-    private final static int REQUEST_BACK = 100 ;
-    boolean info = false;
+    private EditText edNickname;
+    private EditText edPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-        if (!info){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivityForResult(intent, REQUEST_BACK);
-        }
+        edNickname = (EditText) findViewById(R.id.nickname);
+        edPhone = (EditText) findViewById(R.id.phone);
+        String ednickname = getSharedPreferences("info", MODE_PRIVATE).getString("NICKNAME", "");
+        String edphone = getSharedPreferences("info", MODE_PRIVATE).getString("PHONE", "");
+        edNickname.setText(ednickname);
+        edPhone.setText(edphone);
     }
     public void info (View view){
-        EditText edNickname = (EditText) findViewById(R.id.nickname);
-        EditText edPhone = (EditText) findViewById(R.id.phone);
-        String nickname = edNickname.getText().toString();
-        String phone = edPhone.getText().toString();
-        getIntent().putExtra("EXTRA_NICKNAME", nickname);
-        getIntent().putExtra("EXTRA_PHONE", phone);
+        String ednickname = edNickname.getText().toString();
+        String edphone = edPhone.getText().toString();
+        getIntent().putExtra("EXTRA_NICKNAME", ednickname);
+        getIntent().putExtra("EXTRA_PHONE", edphone);
+        setResult(RESULT_OK, getIntent());
+        finish();
 
     }
 }
