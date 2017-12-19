@@ -39,7 +39,7 @@ public class  MainActivity extends AppCompatActivity {
                     String ednickname = data.getStringExtra("EXTRA_NICKNAME");
                     String edphone = data.getStringExtra("EXTRA_PHONE");
                     Toast.makeText(this, "暱稱：" + ednickname + "電話：" + edphone, Toast.LENGTH_LONG).show();
-                    getSharedPreferences("info", MODE_PRIVATE).edit().putString("NICKNAME", ednickname).putString("PHONE", edphone).apply();
+                    //getSharedPreferences("info", MODE_PRIVATE).edit().putString("NICKNAME", ednickname).putString("PHONE", edphone).apply();
 
                 }
                 break;
@@ -51,6 +51,7 @@ public class  MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startActivity(new Intent(this, UserInfoActivity.class));
+
         if (!logon){
             Intent intent = new Intent(this, LoginActivity.class);
             //startActivity(intent);
@@ -65,8 +66,8 @@ public class  MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, UserInfoActivity.class);
-                startActivityForResult(i, REQUEST_INFO);
+                Intent userinfo = new Intent(MainActivity.this, UserInfoActivity.class);
+                startActivityForResult(userinfo, REQUEST_INFO);
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                   //      .setAction("Action", null).show();
             }
