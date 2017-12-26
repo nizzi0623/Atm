@@ -1,5 +1,6 @@
 package com.nizzi.atm;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,15 +23,20 @@ public class UserInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_info);
         ages = (Spinner) findViewById(R.id.ages);
         ArrayList<String> data = new ArrayList<>();
-        for (int i=15; i<=40; i++){
-            data.add(i+"");
+        for (int i=15; i<=40; i++) {
+            data.add(i + "");
         }
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, data);
         ages.setAdapter(adapter);
+
+
         /* String ednickname = getSharedPreferences("info", MODE_PRIVATE).getString("NICKNAME", "");
         String edphone = getSharedPreferences("info", MODE_PRIVATE).getString("PHONE", "");
         edNickname.setText(ednickname);
         edPhone.setText(edphone);*/
+    }
+    public void address (View view){
+        startActivity(new Intent(this, AddrActivity.class));
     }
     public void info (View view){
         Log.d(TAG, "ok:" + ages.getSelectedItem().toString());
